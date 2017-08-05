@@ -4,7 +4,7 @@
 % Verdadeiro se Q é uma solução de tamanho N com N rainhas.
 % Este predicado constrói as possíves soluções do N-rainhas.
 %rainhas_p(Q, N) :-
-%	sequencia(1, N, R),
+%	sequencia(1, N, R).
 %	permutacao(R, Q),
 %	solucao(Q).
 
@@ -25,15 +25,16 @@
 %	auxiliar2(N1, [N|R], L, S).
 
 
-sequencia(N, L, S) :-
-    auxiliar(N, [], L, S).
+sequencia(I, F, S) :-
+    auxiliar(I, [], F, S).
 
-auxiliar(0, L, L, S) :- !.
+auxiliar(0, F, F, S) :- !.
 
-auxiliar(N, R, L, S) :-
-	N > 0,
-	N1 is N-1,
-	auxiliar(N1, [N|R], L, S).
+auxiliar(I, R, F, S) :-
+	I > 0,
+	I1 is I-1,
+	auxiliar(I1, [I|R], F, S).
+
 
 % certo
 %teste(N, L, S) :-
