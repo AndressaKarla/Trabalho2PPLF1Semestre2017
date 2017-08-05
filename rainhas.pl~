@@ -3,68 +3,23 @@
 % rainhas_p(Q, N) is nondet
 % Verdadeiro se Q é uma solução de tamanho N com N rainhas.
 % Este predicado constrói as possíves soluções do N-rainhas.
-rainhas_p(Q, N) :-
-	sequencia(1, N, R).
+%rainhas_p(Q, N) :-
+%	sequencia(1, N, R).
 %	permutacao(R, Q),
 %	solucao(Q).
 
 
 % sequencia(+I, +F, ?S) is semidet
 % Verdadeiro se S é uma lista com os números inteiros entre I e F (inclusive)
-%sequencia(I, F, S) :-
-%	auxiliar1(I, F, S).
-
-%auxiliar1(N, L, S) :-
-%    auxiliar2(N, [], L, S).
-
-%auxiliar2(0, L, L, S) :- !.
-
-%auxuliar2(N, R, L, S) :-
-%	N > 0,
-%	N1 is N-1,
-%	auxiliar2(N1, [N|R], L, S).
-
-
 sequencia(I, F, S) :-
-    auxiliar(I, [], F, S).
+	auxiliar(I, F, S).
 
-auxiliar(0, F, F, S) :- !.
+auxiliar(I,I,[I]):-!.
 
-auxiliar(I, R, F, S) :-
-	I > 0,
-	I1 is I-1,
-	auxiliar(I1, [I|R], F, S).
-
-
-% certo
-%teste(N, L, S) :-
-%    teste2(N, [], L, S).
-
-%teste2(0, L, L, S) :- !.
-
-%teste2(N, R, L, S) :-
-%	N > 0,
-%	N1 is N-1,
-%	teste2(N1, [N|R], L, S).
-
-
-
-%% =====	BASE -
-%https://stackoverflow.com/questions/10202666/prolog-create-a-list
-%https://stackoverflow.com/questions/16431465/prolog-fill-list-with-n-elements
-%https://www.cpp.edu/~jrfisher/www/prolog_tutorial/2_7.html
-%
-%?- do_list(4, L). -> L = [1, 2, 3, 4].
-%do_list(N, L) :-
-%	do_list1(N, [], L).
-
-%do_list1(0, L, L) :- !.
-%do_list1(N, R, L) :-
-%	N > 0,
-%	N1 is N-1,
-%	do_list1(N1, [N|R], L).
-%% =====	BASE
-
+auxiliar(I,F,[I|LS]):-
+	I < F,
+	I1 is I + 1,
+	auxiliar(I1,F,LS).
 
 % permutacao(?L, ?P) is nondet
 % Verdadeiro se P é uma permutação da lista L
