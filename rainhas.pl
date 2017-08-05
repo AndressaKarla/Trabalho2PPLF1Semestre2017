@@ -23,10 +23,16 @@ auxiliar(I,F,[I|LS]):-
 
 % permutacao(?L, ?P) is nondet
 % Verdadeiro se P é uma permutação da lista L
+permutacao([], []).
+
 permutacao(L, P) :-
-	% ... continuar
-	permutation(L, P)
-	.
+	%permutation(L, P)
+	auxiliar2(L, P).
+
+auxiliar2(L,[P|PS]) :-
+	auxiliar2(L1, PS),
+        select(P, L, L1).
+
 
 %% -------------------------- VERSÃO COM BACKTRACKING --------------------------
 
