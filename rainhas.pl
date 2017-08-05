@@ -11,21 +11,32 @@
 
 % sequencia(+I, +F, ?S) is semidet
 % Verdadeiro se S é uma lista com os números inteiros entre I e F (inclusive)
-sequencia(I, F, S) :-
-	auxiliar1(I, F, S).
+%sequencia(I, F, S) :-
+%	auxiliar1(I, F, S).
 
-auxiliar1(N, L, S) :-
-    auxiliar2(N, [], L, S).
+%auxiliar1(N, L, S) :-
+%    auxiliar2(N, [], L, S).
 
-auxiliar2(0, L, L, S) :- !.
+%auxiliar2(0, L, L, S) :- !.
 
-auxuliar2(N, R, L, S) :-
+%auxuliar2(N, R, L, S) :-
+%	N > 0,
+%	N1 is N-1,
+%	auxiliar2(N1, [N|R], L, S).
+
+
+sequencia(N, L, S) :-
+    auxiliar(N, [], L, S).
+
+auxiliar(0, L, L, S) :- !.
+
+auxiliar(N, R, L, S) :-
 	N > 0,
 	N1 is N-1,
-	auxiliar2(N1, [N|R], L, S).
+	auxiliar(N1, [N|R], L, S).
 
-%% certo
-%    teste(N, L, S) :-
+% certo
+%teste(N, L, S) :-
 %    teste2(N, [], L, S).
 
 %teste2(0, L, L, S) :- !.
@@ -33,7 +44,7 @@ auxuliar2(N, R, L, S) :-
 %teste2(N, R, L, S) :-
 %	N > 0,
 %	N1 is N-1,
-%	deus(N1, [N|R], L, S).
+%	teste2(N1, [N|R], L, S).
 
 
 
