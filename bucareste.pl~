@@ -59,8 +59,8 @@ melhor_caminho(O, [O|Cs]) :-
 %melhor_vizinho(O, V) :-
 	% ... continuar
 	%.
-%vizinhos(O, VS),
-%menor(VS, Menor),
+vizinhos(O, VS),
+menor(VS, Menor),
 
 
 menor([X], X).
@@ -72,11 +72,11 @@ menor([X|XS], M):-
 	menor(XS, M),
 	X >= M.
 
-% membro(?X, ?XS) is nondet
-% Verdadeiro se X é membro de XS
-% Exemplo:
-% ?- Membro(1, [1,2,3].
-% true.
+%%membro(?X, ?XS) is nondet
+%Verdadeiro se X é membro de XS
+%Exemplo:
+%?- Membro(1, [1,2,3].
+%  true.
 
 membro(X, [X | _]).
 
