@@ -5,8 +5,8 @@
 % Este predicado constrói as possíves soluções do N-rainhas.
 rainhas_p(Q, N) :-
 	sequencia(1, N, R),
-	permutacao(R, Q).
-%	solucao(Q).
+	permutacao(R, Q),
+	solucao(Q).
 
 
 % sequencia(+I, +F, ?S) is semidet
@@ -31,7 +31,7 @@ insercao(X, L, L1):-
 
 
 % membro(?X, ?L) is nondet
-% Verdadeiro se X e membro de L
+% Verdadeiro se X é membro de L
 membro(X, L) :-
 	remocao(X, L, _).
 
@@ -94,8 +94,27 @@ aux_permutacao([L | LS], P):-
 % Verdadeiro se Q é uma solução N-rainhas
 % Este predicado apenas verifica se Q é uma solução, e não a constrói.
 % Exemplo:
-%  ?- solucao([4, 5, 3, 2, 1]).
+%  ?- solucao([3, 1, 4, 2]).
 %   true.
-%solucao(Q) :-
-	% ... continuar
-%	.
+solucao(Q):-
+	aux_solucao(Q).
+
+aux_solucao([]).
+
+aux_solucao([Q|QS]) :-
+	aux_solucao(QS),
+	rainha_nao_ataca(Q, QS,1).
+
+% rainha_nao_ataca(+X, +L, +INDICE) is det
+%
+% Verdadeiro se a diferença ....
+% Exemplo.
+% ?- rainha_nao_ataca(4, [3, 1, 4, 2], 3).
+%  true.
+rainha_nao_ataca(_,[],_).
+
+rainha_nao_ataca(X,[Y|YS], INDICE) :-
+	Y-X =\= INDICE,
+	X-Y =\= INDICE,
+	INDICE1 is INDICE + 1,
+	rainha_nao_ataca(X, YS, INDICE1).
