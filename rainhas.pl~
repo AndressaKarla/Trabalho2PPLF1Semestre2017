@@ -12,26 +12,43 @@ rainhas_p(Q, N) :-
 % sequencia(+I, +F, ?S) is semidet
 % Verdadeiro se S é uma lista com os números inteiros entre I e F (inclusive)
 sequencia(I, F, S) :-
-	auxiliar(I, F, S).
+	auxiliar_sequencia(I, F, S).
 
-auxiliar(I,I,[I]):-!.
+aux_sequencia(I,I,[I]):-!.
 
-auxiliar(I,F,[I|LS]):-
+aux_sequencia(I,F,[I|LS]):-
 	I < F,
 	I1 is I + 1,
-	auxiliar(I1,F,LS).
+	aux_sequencia(I1,F,LS).
+
+% membro(?X, ?XS) is nondet
+% Verdadeiro se X e membro de XS
+
+%membro(X, [X | _]).
+
+%membro(X, [_ | XS]):-
+%	membro(X, XS).
+
+insercao(X, L, L1):-
+	remocao(X, L1, L).
+
+membro(X, L) :-
+	remocao(X, L, _).
+
+remocao(X, [X | C], C).
+remocao(X, [Y | C], [Y | D]):-
+remocao(X, C, D).
 
 % permutacao(?L, ?P) is nondet
 % Verdadeiro se P é uma permutação da lista L
-permutacao([], []).
+permutacao(L, P):-
+	aux_permutacao(L,P).
 
-permutacao(L, P) :-
-	%permutation(L, P)
-	auxiliar2(L, P).
+aux_permutacao([], []).
 
-auxiliar2(L,[P|PS]) :-
-	auxiliar2(L1, PS),
-        select(X, L, L1).
+aux_permutacao([X | L], P):-
+	permutacao(L, L1),
+	insercao(X, L1, P).
 
 
 %% -------------------------- VERSÃO COM BACKTRACKING --------------------------
