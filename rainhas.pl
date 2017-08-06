@@ -21,23 +21,25 @@ aux_sequencia(I,F,[I|LS]):-
 	I1 is I + 1,
 	aux_sequencia(I1,F,LS).
 
-% membro(?X, ?XS) is nondet
-% Verdadeiro se X e membro de XS
-
-%membro(X, [X | _]).
-
-%membro(X, [_ | XS]):-
-%	membro(X, XS).
+% membro(?X, ?L, ?L1) is nondet
+% Verdadeiro se ao inserir um elemento X em algum lugar de uma lista L
+% resulta em uma nova lista L1, com o elemento X inserido na posição
+% desejada
 
 insercao(X, L, L1):-
 	remocao(X, L1, L).
 
+
+% membro(?X, ?L) is nondet
+% Verdadeiro se X e membro de L
 membro(X, L) :-
 	remocao(X, L, _).
 
-remocao(X, [X | C], C).
-remocao(X, [Y | C], [Y | D]):-
-remocao(X, C, D).
+% remocao(?X, ?L, ?L1) is nondet
+% Verdadeiro se a lista L1 é a lista L com o elemento X removido
+remocao(X, [X | XS], XS).
+remocao(X, [Y | XS], [Y | YS]):-
+remocao(X, XS, YS).
 
 % permutacao(?L, ?P) is nondet
 % Verdadeiro se P é uma permutação da lista L
@@ -46,10 +48,9 @@ permutacao(L, P):-
 
 aux_permutacao([], []).
 
-aux_permutacao([X | L], P):-
-	permutacao(L, L1),
-	insercao(X, L1, P).
-
+aux_permutacao([L | LS], P):-
+	permutacao(LS, L1),
+	insercao(L, L1, P).
 
 %% -------------------------- VERSÃO COM BACKTRACKING --------------------------
 
