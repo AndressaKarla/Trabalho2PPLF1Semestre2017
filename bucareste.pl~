@@ -1,4 +1,6 @@
-﻿vizinhos(arad, [d(sibiu,140), d(timisoara,118), d(zerind,75)]).
+﻿:- use_module(library(plunit)).
+
+vizinhos(arad, [d(sibiu,140), d(timisoara,118), d(zerind,75)]).
 vizinhos(bucharest, [d(fagaras,211), d(giurgiu,90), d(pitesti,101), d(urziceni,85)]).
 vizinhos(craiova, [d(dobreta,120), d(pitesti,138), d(rimnicu_vilcea,146)]).
 vizinhos(dobreta, [d(mehadia,75), d(craiova,120)]).
@@ -46,6 +48,12 @@ heuristica(zerind, 374).
 % Exemplo:
 %  ?- melhor_caminho(sibiu, C).
 %  C = [sibiu, rimnicu_vilcea, pitesti, bucharest].
+:- begin_tests(melhor_caminho).
+
+test(t1, C == [sibiu, rimnicu_vilcea, pitesti, bucharest]):- melhor_caminho(sibiu, C).
+
+:- end_tests(melhor_caminho).
+
 melhor_caminho(bucharest, [bucharest]) :- !.
 melhor_caminho(O, [O|Cs]) :-
 	melhor_vizinho(O, V), !,
@@ -56,6 +64,13 @@ melhor_caminho(O, [O|Cs]) :-
 % Exemplo:
 %  ?- melhor_vizinho(sibiu, V).
 %  V = rimnicu_vilcea.
+
+:- begin_tests(melhor_vizinho).
+
+test(t2, V == rimnicu_vilcea):- melhor_vizinho(sibiu, V).
+
+:- end_tests(melhor_vizinho).
+
 melhor_vizinho(O, V) :-
 	vizinhos(O,VS),
 	menor(VS,M),
@@ -88,7 +103,6 @@ menor(X, [Y|YS], M) :-
        menor(X, YS, M);
        menor(Y, YS, M)
    ).
-
 
 %% min(?X, ?Y) is semidet
 % Verdadeiro se Y é o menor valor da lista X
