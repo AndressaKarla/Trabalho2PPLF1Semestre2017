@@ -56,31 +56,67 @@ melhor_caminho(O, [O|Cs]) :-
 % Exemplo:
 %  ?- melhor_vizinho(sibiu, V).
 %  V = rimnicu_vilcea.
-%melhor_vizinho(O, V) :-
-	% ... continuar
-	%.
-vizinhos(O, VS),
-menor(VS, Menor),
+melhor_vizinho(O, V) :-
+	vizinhos(O,VS),
+	menor(VS,M),
+	D = d(V,M),
+	membro(D,VS).
+
+%% menor(X, M) is semidet
+% Verdadeiro se M é o menor valor da
+% lista X de distancias d(cidade,distancia) somado com a heurística da cidade
+% Exemplo:
+% ?- menor([d(sibiu, 151), d(zerind, 71)], M).
+% M = 151.
+
+menor([X|XS], M) :-
+    menor(X, XS, M).
+
+menor(X, [], M):-
+	d(_, M) = X.
+
+menor(X, [Y|YS], M) :-
+    d(V,M0) = X,
+    d(V1,M1) = Y,
+    heuristica(V,D1),
+    heuristica(V1,D2),
+    H is M0 + D1,
+    MH is M1 + D2,
+    Min is min(H, MH),
+    Aux is Min - M0,
+   (Aux =:= D1 ->
+       menor(X, YS, M);
+       menor(Y, YS, M)
+   ).
 
 
-menor([X], X).
+%% min(?X, ?Y) is semidet
+% Verdadeiro se Y é o menor valor da lista X
+% Exemplo:
+% ?- min([1, 2, 3], 1).
+% true.
+min([X], X).
 
-menor([X|XS], X):-
-	menor(XS, M),
-	X < M.
-menor([X|XS], M):-
-	menor(XS, M),
-	X >= M.
+min([X, Y | R], Y) :-
+    X < Y, !,
+    min([X | R], Y).
 
-%%membro(?X, ?XS) is nondet
-%Verdadeiro se X é membro de XS
-%Exemplo:
-%?- Membro(1, [1,2,3].
+min([_, Y | R], Y) :-
+   min([Y | R], Y).
+
+
+% membro(?X, ?XS) is nondet
+%
+% Verdadeiro se X é um elemento de XS
+% Exemplo:
+% ?- Membro(3, [1,2,3].
 %  true.
 
 membro(X, [X | _]).
 
-membro(X, [_ | XS]):-
-	membro(X, XS).
+membro(X, [_ | XS]) :-
+    membro(X, XS).
+
+
 
 
