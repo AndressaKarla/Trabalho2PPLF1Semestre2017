@@ -8,7 +8,6 @@ rainhas_p(Q, N) :-
 	permutacao(R, Q),
 	solucao(Q).
 
-
 % sequencia(+I, +F, ?S) is semidet
 % Verdadeiro se S é uma lista com os números inteiros entre I e F (inclusive)
 sequencia(I, F, S) :-
@@ -28,7 +27,6 @@ aux_sequencia(I,F,[I|LS]):-
 
 insercao(X, L, L1):-
 	remocao(X, L1, L).
-
 
 % membro(?X, ?L) is nondet
 % Verdadeiro se X é membro de L
@@ -52,44 +50,6 @@ aux_permutacao([L | LS], P):-
 	permutacao(LS, L1),
 	insercao(L, L1, P).
 
-%% -------------------------- VERSÃO COM BACKTRACKING --------------------------
-
-% rainhas_n(?Q, +N) is nondet
-% predicado "interface" para o rainhas/3
-%rainhas_n(Q, N) :-
-%	rainhas_n(Q, N, N).
-
-% rainhas_n(?Q, +N, +T) is nondet
-% Verdadeiro se Q é uma solução de tamanho T com N rainhas.
-% Este é um predicado auxiliar e não deve ser chamado diretamente.
-% Sua prova deve ser realizada com N = T.
-% Exemplo:
-%  ?- rainhas_n(Q, 5, 5).
-%  Q = [4, 2, 5, 3, 1] ;
-%  Q = [3, 5, 2, 4, 1] ;
-%  Q = [5, 3, 1, 4, 2] ;
-%  ...
-%rainhas_n([R|Rs], N, T) :-
-%	T > 0, !,
-%	T0 is T-1,
-%	rainhas_n(Rs, N, T0),
-%	entre(1, N, R),
-%	solucao([R|Rs]).
-
-%rainhas_n([], _, 0).
-
-%% entre(+I, +F, ?V) is nondet
-% Verdadeiro se V é um número natural entre I e F (inclusive).
-% Exemplo:
-%  ?- entre(1, 3, V).
-%  V = 1;
-%  V = 2;
-%  V = 3;
-%  false.
-%entre(I, F, V) :-
-	% ... continuar
-%	.
-
 %% solucao(+Q) is semidet
 % Verdadeiro se Q é uma solução N-rainhas
 % Este predicado apenas verifica se Q é uma solução, e não a constrói.
@@ -105,12 +65,15 @@ aux_solucao([Q|QS]) :-
 	aux_solucao(QS),
 	rainha_nao_ataca(Q, QS,1).
 
-% rainha_nao_ataca(+X, +L, +INDICE) is det
-%
-% Verdadeiro se a diferença ....
+% rainha_nao_ataca(+X, +Y, +INDICE) is det
+% Verdadeiro se há diferença entre os elementos da lista Y e o valor X e
+% o índice
+% Caso haja essa diferença, significa que não há ataque
+% entre as rainhas
+% na diagonal
 % Exemplo.
 % ?- rainha_nao_ataca(4, [3, 1, 4, 2], 3).
-%  true.
+% true.
 rainha_nao_ataca(_,[],_).
 
 rainha_nao_ataca(X,[Y|YS], INDICE) :-
